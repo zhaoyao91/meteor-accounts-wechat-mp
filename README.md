@@ -13,6 +13,7 @@ Because this package is generally used in China, this doc will be written in chi
 ### 1. 添加包
 ```
 meteor add zhaoyao91:accounts-wechat-mp
+meteor add zhaoyao91:short-oauth-state
 meteor add service-configuration
 ```
 
