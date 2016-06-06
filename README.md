@@ -73,6 +73,8 @@ Accounts.onCreateUser(function (options, user) {
     return user;
 });
 ```
+### Note:
+在绑定微信所有平台，需要先进行开发者认证，微信需要你有自己的服务器资源，填写的URL需要正确响应微信发送的Token验证，具体的js 在这里可以找到：[如何接入微信公众平台（meteor）](http://www.essamjo.com/2016/02/18/meteor%E9%AA%8C%E8%AF%81%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%B9%B3%E5%8F%B0/)
 
 ## 参考
 - [boxfish/meteor-accounts-wechat](https://github.com/boxfish/meteor-accounts-wechat/)
