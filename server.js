@@ -67,7 +67,7 @@ var getTokenResponse = function (config, query) {
 
         response.content = JSON.parse(response.content);
         if (response.content.errcode)
-            throw {message: response.content.errcode + " " + response.content.errmsg};
+            throw {message: response.content.errcode + " " + response.content.errmsg, response: response};
     } catch (err) {
         throw _.extend(new Error("Failed to complete OAuth handshake with WeChatMP. " + err.message),
             {response: err.response});
@@ -95,7 +95,7 @@ var getIdentity = function (accessToken, openId) {
 
         response.content = JSON.parse(response.content);
         if (response.content.errcode)
-            throw {message: response.content.errcode + " " + response.content.errmsg};
+            throw {message: response.content.errcode + " " + response.content.errmsg, response: response};
 
         return response.content;
     } catch (err) {
