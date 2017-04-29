@@ -61,13 +61,13 @@ var getTokenResponse = function (config, query) {
                 }
             }
         );
-        if (response.error) // if the http response was an error
-            throw response.error;
-        if (typeof response.content === "string")
-            response.content = JSON.parse(response.content);
-        if (response.content.error)
-            throw response.content;
 
+        if (response.statusCode !== 200 || !response.content)
+            throw {message: "HTTP response error", response: response};
+
+        response.content = JSON.parse(response.content);
+        if (response.content.errcode)
+            throw {message: response.content.errcode + " " + response.content.errmsg, response: response};
     } catch (err) {
         throw _.extend(new Error("Failed to complete OAuth handshake with WeChatMP. " + err.message),
             {response: err.response});
@@ -89,12 +89,15 @@ var getIdentity = function (accessToken, openId) {
                 params: {access_token: accessToken, openid: openId, lang: 'zh-CN'}
             }
         );
-        if (response.error) // if the http response was an error
-            throw response.error;
-        if (typeof response.content === "string")
-            return JSON.parse(response.content);
-        if (response.content.error)
-            throw response.content;
+
+        if (response.statusCode !== 200 || !response.content)
+            throw {message: "HTTP response error", response: response};
+
+        response.content = JSON.parse(response.content);
+        if (response.content.errcode)
+            throw {message: response.content.errcode + " " + response.content.errmsg, response: response};
+
+        return response.content;
     } catch (err) {
         throw _.extend(new Error("Failed to fetch identity from WeChatMP. " + err.message),
             {response: err.response});
