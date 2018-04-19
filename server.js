@@ -1,14 +1,4 @@
-const whitelistedFields = [
-    'nickname',
-    'sex',
-    'language',
-    'province',
-    'city',
-    'country',
-    'headimgurl',
-    'privilege'
-];
-
+const whitelistedFields = WeChatMP.whitelistedFields;
 const serviceName = WeChatMP.serviceName;
 const serviceVersion = 2;
 const serviceUrls = null;
