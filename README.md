@@ -28,10 +28,12 @@ ServiceConfiguration.configurations.upsert({
         secret: '...',
         scope: 'base_userinfo',
         loginStyle: 'redirect',
-        mainId: 'openId'
+        mainId: 'openId',
+        lang: 'en' //option defaultValue is zh_CN
     }
 });
 ```
+
 
 ### 3. 登录
 client端：

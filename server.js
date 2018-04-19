@@ -1,14 +1,4 @@
-const whitelistedFields = [
-    'nickname',
-    'sex',
-    'language',
-    'province',
-    'city',
-    'country',
-    'headimgurl',
-    'privilege'
-];
-
+const whitelistedFields = WeChatMP.whitelistedFields;
 const serviceName = WeChatMP.serviceName;
 const serviceVersion = 2;
 const serviceUrls = null;
@@ -16,9 +6,8 @@ const serviceHandler = function (query) {
     var config = ServiceConfiguration.configurations.findOne({service: serviceName});
     if (!config)
         throw new ServiceConfiguration.ConfigError();
-
+    const { lang } = config;
     var response = getTokenResponse(config, query);
-
     const expiresAt = (+new Date) + (1000 * parseInt(response.expiresIn, 10));
     const {accessToken, scope, openId, unionId} = response;
     let serviceData = {
@@ -35,7 +24,7 @@ const serviceHandler = function (query) {
     if (response.refreshToken)
         serviceData.refreshToken = response.refreshToken;
 
-    var identity = getIdentity(accessToken, openId);
+    var identity = getIdentity(accessToken, openId, lang);
     var fields = _.pick(identity, whitelistedFields);
     _.extend(serviceData, fields);
 
@@ -83,13 +72,13 @@ var getTokenResponse = function (config, query) {
     };
 };
 
-var getIdentity = function (accessToken, openId) {
+var getIdentity = function (accessToken, openId, lang) {
     try {
+        lang = lang || 'zh_CN';
         var response = HTTP.get("https://api.weixin.qq.com/sns/userinfo", {
-                params: {access_token: accessToken, openid: openId, lang: 'zh-CN'}
+                params: {access_token: accessToken, openid: openId, lang: lang}
             }
         );
-
         if (response.statusCode !== 200 || !response.content)
             throw {message: "HTTP response error", response: response};
 
